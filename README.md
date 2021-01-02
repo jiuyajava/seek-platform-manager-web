@@ -1,2 +1,8 @@
 # seek-platform-manager-web
-管理后台
+后台管理
+
+git clone xxx
+yarn install
+yarn run dev
+
+
