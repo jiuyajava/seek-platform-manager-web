@@ -5,4 +5,5 @@ git clone xxx
 yarn install
 yarn run dev
 
-
+构建
+gulp

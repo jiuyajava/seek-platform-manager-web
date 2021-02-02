@@ -39,7 +39,6 @@
       :data="dataList"
       border
       v-loading="dataListLoading"
-      @selection-change="selectionChangeHandle"
       style="width: 100%;">
      <el-table-column
         type="selection"
@@ -68,10 +67,10 @@
         label="用户名">
       </el-table-column>
      <!-- <el-table-column
-        prop="section"
+        prop="missingMode"
         header-align="center"
         align="center"
-        label="版块">
+        label="失踪方式">
          <template slot-scope="scope">
           <el-tag v-if="scope.row.section === 1" size="small" type="info">玩天空</el-tag>
           <el-tag v-else-if="scope.row.section === 2" size="small" type="info">极鸥游</el-tag>
@@ -84,6 +83,22 @@
         label="标题">
       </el-table-column>
       <el-table-column
+        prop="name"
+        header-align="center"
+        align="center"
+        label="失踪人">
+      </el-table-column>
+           <el-table-column
+        prop="missingMode"
+        header-align="center"
+        align="center"
+        label="失踪方式">
+         <template slot-scope="scope">
+          <el-tag v-if="scope.row.missingMode === '0'" size="small" type="info">失踪</el-tag>
+          <el-tag v-else-if="scope.row.missingMode === '1'" size="small" type="info">失联</el-tag>
+        </template>
+      </el-table-column>
+      <!-- <el-table-column
         prop="type"
         header-align="center"
         align="center"
@@ -93,15 +108,14 @@
           <el-tag v-if="scope.row.type === 1" size="small" type="info">图片</el-tag>
           <el-tag v-else-if="scope.row.type === 2" size="small" type="info">视频</el-tag>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column
-        prop="image"
+        prop="imgUrl"
         header-align="center"
         align="center"
-        label="资源">
+        label="图片">
         <template slot-scope="scope">
-          <img min-width="60"  v-if="scope.row.type === 1"  height="60" :src="scope.row.imgUrl[0]" />
-          <img min-width="60"  v-if="scope.row.type === 2"  height="60" :src="scope.row.vframe" />
+          <img min-width="60"    height="60" :src="scope.row.imgUrl[0]" />
         </template>
       </el-table-column>
       <el-table-column
@@ -148,7 +162,7 @@
         header-align="center"
         align="center"
          width="80"
-        label="资源状态">
+        label="状态">
         <template slot-scope="scope">
           <el-tag v-if="scope.row.isDelete === 0" size="small" type="info">正常</el-tag>
           <el-tag v-else-if="scope.row.isDelete === 1" size="small" type="info">已删除</el-tag>
@@ -168,6 +182,7 @@
         label="操作">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="addOrUpdateHandle(scope.row)">详情</el-button>
+          <el-button type="text" v-if="scope.row.isDelete === 0" size="small" @click="deleteHandle(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -259,8 +274,8 @@
           })
         }).then(({data}) => {
           if (data && data.code === 0) {
-            this.dataList = data.page.list
-            this.totalPage = data.page.totalCount
+            this.dataList = data.page.records
+            this.totalPage = data.page.total
           } else {
             this.dataList = []
             this.totalPage = 0
@@ -284,6 +299,36 @@
         this.addOrUpdateVisible = true
         this.$nextTick(() => {
           this.$refs.addOrUpdate.init(row)
+        })
+      },
+                // 删除
+      deleteHandle (id) {
+        var ids = id ? [id] : this.dataListSelections.map(item => {
+          return item.id
+        })
+        this.$confirm(`确定对[id=${ids.join(',')}]进行[${id ? '删除' : '批量删除'}]操作?`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$http({
+            url: this.$http.adornUrl('/manager/post/delete'),
+            method: 'post',
+            data: this.$http.adornData(ids, false)
+          }).then(({data}) => {
+            if (data && data.code === 0) {
+              this.$message({
+                message: '操作成功',
+                type: 'success',
+                duration: 1500,
+                onClose: () => {
+                  this.getDataList()
+                }
+              })
+            } else {
+              this.$message.error(data.msg)
+            }
+          })
         })
       }
     }

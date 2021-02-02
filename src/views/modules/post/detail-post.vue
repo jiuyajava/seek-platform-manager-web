@@ -30,28 +30,6 @@
         ></el-col>
       </el-row>
       <el-row>
-        <el-col :span="8"
-          ><div class="grid-content bg-purple-light">
-            <el-form-item label="版块">
-              <el-select v-model="dataForm.section" :disabled="true">
-                <el-option
-                  v-for="item in sectionOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                >
-                </el-option>
-              </el-select>
-            </el-form-item></div
-        ></el-col>
-        <el-col :span="8"
-          ><div class="grid-content bg-purple-light">
-            <el-form-item label="标签">
-              <el-input v-model="dataForm.postType" :disabled="true"></el-input>
-            </el-form-item></div
-        ></el-col>
-      </el-row>
-      <el-row>
         <el-col :span="12"
           ><div class="grid-content bg-purple">
             <el-form-item label="标题">
@@ -59,7 +37,7 @@
             </el-form-item></div
         ></el-col>
       </el-row>
-      <el-row type="flex" v-if="dataForm.type == 1">
+      <el-row type="flex" >
         <el-col>
           <el-form-item label="图片">
             <viewer
@@ -206,16 +184,6 @@ export default {
   data () {
     return {
       dataRule: {},
-      sectionOptions: [
-        {
-          value: 1,
-          label: '玩天空'
-        },
-        {
-          value: 2,
-          label: '极鸥游'
-        }
-      ],
       checkStateOptions: [
         {
           value: 0,
