@@ -146,6 +146,7 @@
         label="操作">
         <template slot-scope="scope">
           <el-button v-if="isAuth('sys:user:update')" type="text" size="small" @click="addOrUpdateHandle(scope.row.userId)">修改</el-button>
+          <el-button   type="text" size="small" @click="blackListHandle(scope.row.userId)">拉黑</el-button>
           <el-button v-if="isAuth('manager:user:delete') && scope.row.status === 1" type="text" size="small" @click="deleteHandle(scope.row.userId)">禁用</el-button>
         </template>
       </el-table-column>
@@ -239,9 +240,28 @@
       },
       // 新增 / 修改
       addOrUpdateHandle (id) {
-        this.addOrUpdateVisible = true
         this.$nextTick(() => {
           this.$refs.addOrUpdate.init(id)
+        })
+      },
+      blackListHandle (id) {
+        this.$http({
+          url: this.$http.adornUrl('/manager/blackList/save'),
+          method: 'post',
+          data: this.$http.adornData({
+            'type': 1,
+            'userId': id
+          })
+        }).then(({data}) => {
+          if (data && data.code === 0) {
+            this.$message({
+              message: '操作成功',
+              type: 'success',
+              duration: 1500
+            })
+          } else {
+            this.$message.error(data.msg)
+          }
         })
       },
       // 删除
