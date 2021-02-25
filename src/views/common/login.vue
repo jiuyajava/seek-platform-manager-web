@@ -3,8 +3,7 @@
     <div class="site-content__wrapper">
       <div class="site-content">
         <div class="brand-info">
-          <h2 class="brand-info__text">极鸥-后台管理系统</h2>
-          <!-- <p class="brand-info__intro">极鸥是一个通航社群的APP平台，XXXXX</p> -->
+          <h2 class="brand-info__text">seek-后台管理系统</h2>
         </div>
         <div class="login-main">
           <h3 class="login-title">管理员登录</h3>

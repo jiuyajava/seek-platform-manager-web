@@ -66,16 +66,6 @@
         align="center"
         label="用户名">
       </el-table-column>
-     <!-- <el-table-column
-        prop="missingMode"
-        header-align="center"
-        align="center"
-        label="失踪方式">
-         <template slot-scope="scope">
-          <el-tag v-if="scope.row.section === 1" size="small" type="info">玩天空</el-tag>
-          <el-tag v-else-if="scope.row.section === 2" size="small" type="info">极鸥游</el-tag>
-        </template>
-      </el-table-column> -->
       <el-table-column
         prop="title"
         header-align="center"
