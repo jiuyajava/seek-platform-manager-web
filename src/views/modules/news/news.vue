@@ -107,7 +107,7 @@
     data () {
       return {
         statusOptions: [{
-          value: 0,
+          value: '',
           label: '全部'
         }, {
           value: 1,
