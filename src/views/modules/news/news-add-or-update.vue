@@ -118,7 +118,6 @@
         console.log(this.dataForm.details)
       },
       init (id) {
-        debugger
         this.fileList = []
         this.dataForm.thumbnail = null
         this.dataForm.id = id || 0
